@@ -4,24 +4,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-FHE-agent-bench is a monorepo containing two AI agent benchmarking frameworks as git submodules:
+FHE-agent-bench is a monorepo containing two AI agent benchmarking frameworks and an FHE challenge test bench:
 
-- **MLAgentBench** - Evaluates AI agents on machine learning experimentation tasks (model development, hyperparameter tuning, etc.)
-- **AIDE-FHE** - LLM-driven agent that solves Fully Homomorphic Encryption challenges via tree-search
+- **MLAgentBench** - Evaluates AI agents on machine learning experimentation tasks (git submodule)
+- **AIDE-FHE** - LLM-driven agent that solves FHE challenges via tree-search (git submodule)
+- **fhe_challenge** - 20 FHE challenges from [FHERMA](https://fherma.io/challenges) for benchmarking
 
-Each submodule has its own CLAUDE.md with detailed guidance. Refer to those when working within a specific project.
+Each submodule has its own CLAUDE.md with detailed guidance.
 
 ## Repository Structure
 
 ```
 FHE-agent-bench/
 ├── MLAgentBench/          # ML experimentation benchmark (git submodule)
-│   ├── MLAgentBench/      # Core package
-│   ├── agents/            # Agent implementations
-│   └── benchmarks/        # Task datasets
-└── AIDE-FHE/              # FHE challenge solver (git submodule)
-    ├── aide/              # Core package
-    └── challenges/        # FHE challenges
+├── AIDE-FHE/              # FHE challenge solver (git submodule)
+└── fhe_challenge/         # FHE test bench (20 challenges)
+    ├── black_box/         # Pre-encrypted challenges (3)
+    └── white_box/         # Full implementation challenges (17)
+        ├── openfhe/       # OpenFHE C++ (11)
+        ├── ml_inference/  # ML model inference (4)
+        └── non-OpenFHE/   # Other libraries (2)
 ```
 
 ## Quick Start
@@ -47,6 +49,23 @@ pip install -e .
 # Run challenge
 aide-fhe challenge_dir=/path/to/challenge
 ```
+
+### FHE Challenge Test Bench
+
+**Black Box** (pre-encrypted inputs):
+```bash
+cd fhe_challenge/black_box/challenge_relu
+docker build -t relu .
+docker run --rm -v $(pwd)/tests/testcase1:/data relu
+```
+
+**White Box** (full implementation):
+```bash
+cd fhe_challenge/white_box/openfhe/challenge_max
+./verify.sh
+```
+
+Available challenges: relu, sigmoid, sign (black_box); array_sorting, gelu, invertible_matrix, knn, lookup_table, matrix_multiplication, max, parity, shl, softmax, svd (openfhe); cifar10, house_prediction, sentiment_analysis, svm (ml_inference); string_search, swift (non-OpenFHE)
 
 ## API Key Configuration
 
