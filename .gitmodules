@@ -1,3 +1,6 @@
 [submodule "MLAgentBench"]
 	path = MLAgentBench
 	url = https://github.com/mayank64ce/MLAgentBench.git
+[submodule "AIDE-FHE"]
+	path = AIDE-FHE
+	url = https://github.com/mayank64ce/AIDE-FHE.git
