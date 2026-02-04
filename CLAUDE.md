@@ -34,8 +34,15 @@ cd MLAgentBench
 pip install -e .
 bash install.sh
 
-# Run experiment
+# Run ML experiment
 python -u -m MLAgentBench.runner --python $(which python) --task cifar10 --device 0 --log-dir logs --work-dir workspace --llm-name claude-3-5-sonnet-20241022
+
+# Run FHE challenge (new!)
+python -u -m MLAgentBench.runner --python $(which python) \
+    --challenge-dir ../fhe_challenge/black_box/challenge_relu \
+    --device 0 --log-dir logs/fhe --work-dir workspace \
+    --llm-name claude-3-5-sonnet-20241022 \
+    --docker-timeout 600 --docker-build-timeout 300
 
 # Evaluate results
 python -m MLAgentBench.eval --log-folder logs --task cifar10 --output-file results.json
