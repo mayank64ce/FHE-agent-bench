@@ -4,3 +4,6 @@
 [submodule "AIDE-FHE"]
 	path = AIDE-FHE
 	url = https://github.com/mayank64ce/AIDE-FHE.git
+[submodule "OpenHands"]
+	path = OpenHands
+	url = https://github.com/thesofakillers/OpenHands.git
