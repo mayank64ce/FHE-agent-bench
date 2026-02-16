@@ -4,10 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-FHE-agent-bench is a monorepo containing two AI agent benchmarking frameworks and an FHE challenge test bench:
+FHE-agent-bench is a monorepo containing three AI agent benchmarking frameworks and an FHE challenge test bench:
 
 - **MLAgentBench** - Evaluates AI agents on machine learning experimentation tasks (git submodule)
 - **AIDE-FHE** - LLM-driven agent that solves FHE challenges via tree-search (git submodule)
+- **OpenHands** - General-purpose AI agent platform adapted for FHE challenges (git submodule)
 - **fhe_challenge** - 20 FHE challenges from [FHERMA](https://fherma.io/challenges) for benchmarking
 
 Each submodule has its own CLAUDE.md with detailed guidance.
@@ -18,6 +19,7 @@ Each submodule has its own CLAUDE.md with detailed guidance.
 FHE-agent-bench/
 ├── MLAgentBench/          # ML experimentation benchmark (git submodule)
 ├── AIDE-FHE/              # FHE challenge solver (git submodule)
+├── OpenHands/             # General-purpose AI agent platform (git submodule)
 └── fhe_challenge/         # FHE test bench (20 challenges)
     ├── black_box/         # Pre-encrypted challenges (3)
     └── white_box/         # Full implementation challenges (17)
@@ -57,6 +59,21 @@ pip install -e .
 aide-fhe challenge_dir=/path/to/challenge
 ```
 
+### OpenHands
+```bash
+cd OpenHands
+pip install -e .
+
+# Run FHE challenge
+conda run -n openhands python run_fhe.py \
+    --model gpt-4o \
+    --challenge-dir ../fhe_challenge/black_box/challenge_relu \
+    --max-steps 30 \
+    --log-dir logs/fhe/relu_test \
+    --build-timeout 600 \
+    --run-timeout 600
+```
+
 ### FHE Challenge Test Bench
 
 **Black Box** (pre-encrypted inputs):
@@ -85,6 +102,9 @@ Available challenges: relu, sigmoid, sign (black_box); array_sorting, gelu, inve
 - `OPENAI_API_KEY`
 - `OPENROUTER_API_KEY`
 - `OPENAI_BASE_URL` (optional, for local LLMs)
+
+**OpenHands** - Configure via `OpenHands/config.toml` (copy from `config.template.toml`):
+- Set `llm.api_key` and `llm.model` in the config file
 
 ## Working with Submodules
 
