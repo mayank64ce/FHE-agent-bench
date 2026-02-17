@@ -7,3 +7,6 @@
 [submodule "OpenHands"]
 	path = OpenHands
 	url = https://github.com/mayank64ce/OpenHands.git
+[submodule "RD-Agent"]
+	path = RD-Agent
+	url = https://github.com/mayank64ce/RD-Agent.git
