@@ -4,11 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-FHE-agent-bench is a monorepo containing three AI agent benchmarking frameworks and an FHE challenge test bench:
+FHE-agent-bench is a monorepo containing four AI agent benchmarking frameworks and an FHE challenge test bench:
 
 - **MLAgentBench** - Evaluates AI agents on machine learning experimentation tasks (git submodule)
 - **AIDE-FHE** - LLM-driven agent that solves FHE challenges via tree-search (git submodule)
 - **OpenHands** - General-purpose AI agent platform adapted for FHE challenges (git submodule)
+- **RD-Agent** - Microsoft's LLM-agent framework for autonomous R&D, top-performer on MLE-bench (git submodule)
 - **fhe_challenge** - 20 FHE challenges from [FHERMA](https://fherma.io/challenges) for benchmarking
 
 Each submodule has its own CLAUDE.md with detailed guidance.
@@ -20,6 +21,7 @@ FHE-agent-bench/
 ├── MLAgentBench/          # ML experimentation benchmark (git submodule)
 ├── AIDE-FHE/              # FHE challenge solver (git submodule)
 ├── OpenHands/             # General-purpose AI agent platform (git submodule)
+├── RD-Agent/              # Microsoft autonomous R&D agent (git submodule)
 └── fhe_challenge/         # FHE test bench (20 challenges)
     ├── black_box/         # Pre-encrypted challenges (3)
     └── white_box/         # Full implementation challenges (17)
@@ -74,6 +76,23 @@ conda run -n openhands python run_fhe.py \
     --run-timeout 600
 ```
 
+### RD-Agent
+```bash
+cd RD-Agent
+make dev                   # Install in editable mode with dev dependencies
+cp .env.example .env       # Configure LLM API keys
+
+# Run data science scenario
+rdagent data_science
+
+# Run quantitative finance scenarios
+rdagent fin_factor         # Factor evolution
+rdagent fin_model          # Model evolution
+
+# Launch web UI to view execution traces
+rdagent ui
+```
+
 ### FHE Challenge Test Bench
 
 **Black Box** (pre-encrypted inputs):
@@ -105,6 +124,9 @@ Available challenges: relu, sigmoid, sign (black_box); array_sorting, gelu, inve
 
 **OpenHands** - Configure via `OpenHands/config.toml` (copy from `config.template.toml`):
 - Set `llm.api_key` and `llm.model` in the config file
+
+**RD-Agent** - Configure via `RD-Agent/.env` (copy from `.env.example`):
+- Uses LiteLLM backend; set `OPENAI_API_KEY` or other provider keys
 
 ## Working with Submodules
 
